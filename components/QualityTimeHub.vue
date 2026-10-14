@@ -1,62 +1,56 @@
 <template>
   <div class="space-y-4">
-    <!-- Segmented Glass Tab Switcher -->
-    <div class="p-1 rounded-2xl bg-white/60 backdrop-blur-xl border border-white/80 shadow-sm flex items-center gap-1">
+    <!-- Segmented Control Bar -->
+    <div class="p-1.5 rounded-2xl bg-white/70 backdrop-blur-xl border border-white/80 shadow-sm flex items-center gap-1.5">
+      <!-- Journey Tab -->
       <button
-        @click="selectTab('deep-talk')"
-        class="flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5"
+        @click="selectTab('journey')"
+        class="flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2"
         :class="[
-          store.qualityTimeTab === 'deep-talk'
-            ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-sm'
-            : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
-        ]"
-      >
-        <span>💬</span>
-        <span>Deep Talk</span>
-      </button>
-
-      <button
-        @click="selectTab('date-jar')"
-        class="flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5"
-        :class="[
-          store.qualityTimeTab === 'date-jar'
-            ? 'bg-gradient-to-r from-amber-500 to-orange-400 text-white shadow-sm'
-            : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
-        ]"
-      >
-        <span>🏺</span>
-        <span>Date Jar</span>
-      </button>
-
-      <button
-        @click="selectTab('passport')"
-        class="flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5"
-        :class="[
-          store.qualityTimeTab === 'passport'
+          store.qualityTimeTab === 'journey'
             ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-sm'
             : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
         ]"
       >
-        <span>🛂</span>
-        <span>Paspor</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        <span>Perjalanan Cerita</span>
+        <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/20 font-bold">
+          {{ store.journeyMilestones.length }}
+        </span>
+      </button>
+
+      <!-- Passport Tab -->
+      <button
+        @click="selectTab('passport')"
+        class="flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2"
+        :class="[
+          store.qualityTimeTab === 'passport'
+            ? 'bg-gradient-to-r from-sky-500 to-indigo-500 text-white shadow-sm'
+            : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+        ]"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        <span>Paspor Kencan</span>
+        <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/20 font-bold">
+          {{ store.memories.length }}
+        </span>
       </button>
     </div>
 
     <!-- Active Sub-Feature View with Transition -->
     <transition
-      enter-active-class="transition duration-250 ease-out"
+      enter-active-class="transition duration-200 ease-out"
       enter-from-class="transform translate-y-3 opacity-0"
       enter-to-class="transform translate-y-0 opacity-100"
       mode="out-in"
     >
       <div :key="store.qualityTimeTab">
-        <!-- A. Deep Talk Card Deck -->
-        <DeepTalkCardDeck v-if="store.qualityTimeTab === 'deep-talk'" />
-
-        <!-- B. Date Idea Jar / Gacha -->
-        <DateIdeaJar v-else-if="store.qualityTimeTab === 'date-jar'" />
-
-        <!-- C. Quality Time Passport (Memory Vault) -->
+        <CoupleJourney v-if="store.qualityTimeTab === 'journey'" />
         <QualityTimePassport v-else-if="store.qualityTimeTab === 'passport'" />
       </div>
     </transition>
@@ -66,14 +60,13 @@
 <script setup lang="ts">
 import { useCoupleStore } from '~/composables/useCoupleStore'
 import { useAudioEngine } from '~/composables/useAudioEngine'
-import DeepTalkCardDeck from '~/components/DeepTalkCardDeck.vue'
-import DateIdeaJar from '~/components/DateIdeaJar.vue'
+import CoupleJourney from '~/components/CoupleJourney.vue'
 import QualityTimePassport from '~/components/QualityTimePassport.vue'
 
 const store = useCoupleStore()
 const audio = useAudioEngine()
 
-function selectTab(tab: 'deep-talk' | 'date-jar' | 'passport') {
+function selectTab(tab: 'journey' | 'passport') {
   if (store.qualityTimeTab !== tab) {
     audio.playKeyClick(460)
     store.qualityTimeTab = tab

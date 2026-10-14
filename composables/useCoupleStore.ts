@@ -38,23 +38,16 @@ export interface StickyNote {
   createdAt: string
 }
 
-export interface DeepTalkQuestion {
-  id: string
-  category: 'Romance' | 'Memories' | 'Vulnerability' | 'Future' | 'Fun'
-  question: string
-  sparkPrompt: string
-  addedBy: PartnerId
-}
-
-export interface DateIdea {
+export interface JourneyMilestone {
   id: string
   title: string
-  category: 'Santai di Rumah' | 'Kulineran' | 'Outdoor/Jalan'
-  estimatedCost: 'Hemat (< 50k)' | 'Sedang (50k - 200k)' | 'Spesial (> 200k)'
-  duration: '1-2 Jam' | 'Setengah Hari' | 'Seharian'
-  note: string
+  date: string
+  chapter: 'Awal Cerita' | 'Kencan Pertama' | 'Momen Manis' | 'Langkah Baru' | 'Rencana Masa Depan'
+  story: string
+  photoUrl?: string
+  feeling?: string
   addedBy: PartnerId
-  drawnCount: number
+  createdAt: string
 }
 
 export interface MemoryPassport {
@@ -75,10 +68,7 @@ export const useCoupleStore = defineStore('coupleStore', () => {
   const isUnlocked = ref(false)
   const secretPin = ref('2408')
   const isGatekeeperMelting = ref(false)
-  const activeTab = ref<'home' | 'quality-time' | 'passport'>('home')
-
-  // Screen View Mode: 'responsive' (full laptop dashboard on lg screens) vs 'mobile' (simulated phone frame)
-  const viewMode = ref<'responsive' | 'mobile'>('responsive')
+  const activeTab = ref<'home' | 'quality-time'>('home')
 
   // Anniversary date (configurable)
   const anniversaryDate = ref('24 Agustus 2024')
@@ -89,35 +79,34 @@ export const useCoupleStore = defineStore('coupleStore', () => {
   // --- Active Identity ("Who's Home?") ---
   const activePartnerId = ref<PartnerId>('mas')
 
-  // Clean Partners Profile Data (No hardcoded couple names, ready for user customization)
+  // Clean Partners Profile Data
   const partners = ref<Record<PartnerId, Partner>>({
     mas: {
       id: 'mas',
       name: 'Partner A',
       callsign: 'Mas',
-      role: 'Mas / Gua',
+      role: 'Mas',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
       accent: 'sky',
       battery: 100,
       mood: 'Belum diisi mood hari ini',
-      craving: 'Belum ada craving',
+      craving: 'Belum ada keinginan khusus',
       lastUpdated: 'Hari ini'
     },
     adek: {
       id: 'adek',
       name: 'Partner B',
       callsign: 'Adek',
-      role: 'Sayang / Dia',
+      role: 'Adek',
       avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
       accent: 'rose',
       battery: 100,
       mood: 'Belum diisi mood hari ini',
-      craving: 'Belum ada craving',
+      craving: 'Belum ada keinginan khusus',
       lastUpdated: 'Hari ini'
     }
   })
 
-  // Computed Active Partner
   const activePartner = computed(() => partners.value[activePartnerId.value])
   const otherPartner = computed(() => partners.value[activePartnerId.value === 'mas' ? 'adek' : 'mas'])
 
@@ -148,7 +137,7 @@ export const useCoupleStore = defineStore('coupleStore', () => {
     saveToStorage()
   }
 
-  // --- Music Player State (Zero dummy songs) ---
+  // --- Music Player State ---
   const isPlaying = ref(false)
   const isPlayerModalOpen = ref(false)
   const isStoryFlipped = ref(false)
@@ -202,7 +191,7 @@ export const useCoupleStore = defineStore('coupleStore', () => {
     saveToStorage()
   }
 
-  // --- Sticky Notes Wall (Zero dummy notes) ---
+  // --- Sticky Notes Wall ---
   const stickyNotes = ref<StickyNote[]>([])
 
   function addStickyNote(content: string, tag: StickyNote['tag'], color: StickyNote['color']) {
@@ -243,101 +232,29 @@ export const useCoupleStore = defineStore('coupleStore', () => {
     saveToStorage()
   }
 
-  // --- Module 2: Quality Time Hub (Zero dummy data) ---
-  const qualityTimeTab = ref<'deep-talk' | 'date-jar' | 'passport'>('deep-talk')
+  // --- Quality Time Hub: Journey Milestones & Passport ---
+  const qualityTimeTab = ref<'journey' | 'passport'>('journey')
 
-  // A. Deep Talk Card Deck (Zero dummy questions)
-  const deepTalkCards = ref<DeepTalkQuestion[]>([])
-  const currentDeepTalkIndex = ref(0)
-  const isDeepTalkFlipped = ref(false)
+  // Journey Milestones (replacing DeepTalk & DateJar)
+  const journeyMilestones = ref<JourneyMilestone[]>([])
 
-  function nextDeepTalkCard() {
-    if (deepTalkCards.value.length === 0) return
-    isDeepTalkFlipped.value = false
-    currentDeepTalkIndex.value = (currentDeepTalkIndex.value + 1) % deepTalkCards.value.length
-  }
-
-  function shuffleDeepTalkDeck() {
-    if (deepTalkCards.value.length === 0) return
-    isDeepTalkFlipped.value = false
-    const copy = [...deepTalkCards.value]
-    for (let i = copy.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]]
-    }
-    deepTalkCards.value = copy
-    currentDeepTalkIndex.value = 0
-  }
-
-  function addDeepTalkQuestion(question: string, category: DeepTalkQuestion['category'], sparkPrompt: string) {
-    deepTalkCards.value.unshift({
-      id: `dt-${Date.now()}`,
-      category,
-      question,
-      sparkPrompt: sparkPrompt || 'Jawab dengan jujur dari lubuk hati terdalam ✨',
-      addedBy: activePartnerId.value
-    })
-    currentDeepTalkIndex.value = 0
-    isDeepTalkFlipped.value = false
-    saveToStorage()
-  }
-
-  function deleteDeepTalkCard(id: string) {
-    deepTalkCards.value = deepTalkCards.value.filter(c => c.id !== id)
-    if (currentDeepTalkIndex.value >= deepTalkCards.value.length) {
-      currentDeepTalkIndex.value = 0
-    }
-    saveToStorage()
-  }
-
-  // B. Date Idea Jar (Zero dummy tickets)
-  const dateIdeas = ref<DateIdea[]>([])
-  const selectedCategoryFilter = ref<string>('Semua')
-  const lastDrawnIdea = ref<DateIdea | null>(null)
-  const isJarShaking = ref(false)
-
-  const filteredDateIdeas = computed(() => {
-    if (selectedCategoryFilter.value === 'Semua') return dateIdeas.value
-    return dateIdeas.value.filter(i => i.category === selectedCategoryFilter.value)
-  })
-
-  function shakeAndDrawDateIdea() {
-    if (isJarShaking.value || dateIdeas.value.length === 0) return
-    isJarShaking.value = true
-    lastDrawnIdea.value = null
-
-    setTimeout(() => {
-      const pool = filteredDateIdeas.value.length > 0 ? filteredDateIdeas.value : dateIdeas.value
-      if (pool.length > 0) {
-        const randomIndex = Math.floor(Math.random() * pool.length)
-        const picked = pool[randomIndex]
-        picked.drawnCount++
-        lastDrawnIdea.value = picked
-      }
-      isJarShaking.value = false
-      saveToStorage()
-    }, 1100)
-  }
-
-  function addDateIdea(idea: Omit<DateIdea, 'id' | 'addedBy' | 'drawnCount'>) {
-    dateIdeas.value.unshift({
-      ...idea,
-      id: `idea-${Date.now()}`,
+  function addJourneyMilestone(data: Omit<JourneyMilestone, 'id' | 'createdAt' | 'addedBy'>) {
+    const newMilestone: JourneyMilestone = {
+      ...data,
+      id: `journey-${Date.now()}`,
       addedBy: activePartnerId.value,
-      drawnCount: 0
-    })
-    saveToStorage()
-  }
-
-  function deleteDateIdea(id: string) {
-    dateIdeas.value = dateIdeas.value.filter(i => i.id !== id)
-    if (lastDrawnIdea.value && lastDrawnIdea.value.id === id) {
-      lastDrawnIdea.value = null
+      createdAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
     }
+    journeyMilestones.value.unshift(newMilestone)
     saveToStorage()
   }
 
-  // C. Quality Time Passport (Zero dummy memories)
+  function deleteJourneyMilestone(id: string) {
+    journeyMilestones.value = journeyMilestones.value.filter(j => j.id !== id)
+    saveToStorage()
+  }
+
+  // Quality Time Passport
   const memories = ref<MemoryPassport[]>([])
 
   function addMemory(memory: Omit<MemoryPassport, 'id' | 'addedBy'>) {
@@ -354,35 +271,31 @@ export const useCoupleStore = defineStore('coupleStore', () => {
     saveToStorage()
   }
 
-  // Clear all data back to clean slate
+  // Clear all data
   function clearAllData() {
     playlist.value = []
     stickyNotes.value = []
-    deepTalkCards.value = []
-    dateIdeas.value = []
+    journeyMilestones.value = []
     memories.value = []
-    lastDrawnIdea.value = null
     saveToStorage()
   }
 
-  // Persistence to LocalStorage (Clean V2 Storage)
-  const STORAGE_KEY = 'couple_web_space_data_v2'
+  // Persistence to LocalStorage (Version 3)
+  const STORAGE_KEY = 'couple_web_space_data_v3'
 
   function saveToStorage() {
     if (import.meta.client) {
       try {
         const payload = {
-          version: 2,
+          version: 3,
           partners: partners.value,
           anniversaryDate: anniversaryDate.value,
           secretPin: secretPin.value,
           stickyNotes: stickyNotes.value,
-          deepTalkCards: deepTalkCards.value,
-          dateIdeas: dateIdeas.value,
+          journeyMilestones: journeyMilestones.value,
           memories: memories.value,
           playlist: playlist.value,
-          activePartnerId: activePartnerId.value,
-          viewMode: viewMode.value
+          activePartnerId: activePartnerId.value
         }
         localStorage.setItem(STORAGE_KEY, JSON.stringify(payload))
       } catch (e) {
@@ -394,23 +307,21 @@ export const useCoupleStore = defineStore('coupleStore', () => {
   function loadFromStorage() {
     if (import.meta.client) {
       try {
-        // Clear old dummy storage key if present
         localStorage.removeItem('couple_web_space_data')
+        localStorage.removeItem('couple_web_space_data_v2')
 
         const raw = localStorage.getItem(STORAGE_KEY)
         if (raw) {
           const data = JSON.parse(raw)
-          if (data.version === 2) {
+          if (data.version === 3) {
             if (data.partners) partners.value = data.partners
             if (data.anniversaryDate) anniversaryDate.value = data.anniversaryDate
             if (data.secretPin) secretPin.value = data.secretPin
             if (data.stickyNotes) stickyNotes.value = data.stickyNotes
-            if (data.deepTalkCards) deepTalkCards.value = data.deepTalkCards
-            if (data.dateIdeas) dateIdeas.value = data.dateIdeas
+            if (data.journeyMilestones) journeyMilestones.value = data.journeyMilestones
             if (data.memories) memories.value = data.memories
             if (data.playlist) playlist.value = data.playlist
             if (data.activePartnerId) activePartnerId.value = data.activePartnerId
-            if (data.viewMode) viewMode.value = data.viewMode
           }
         }
       } catch (e) {
@@ -441,7 +352,6 @@ export const useCoupleStore = defineStore('coupleStore', () => {
     unlockSpace,
     lockSpace,
     activeTab,
-    viewMode,
     anniversaryDate,
     isProfileModalOpen,
 
@@ -478,25 +388,11 @@ export const useCoupleStore = defineStore('coupleStore', () => {
     togglePinNote,
     deleteNote,
 
-    // Quality Time Hub
+    // Quality Time Hub: Journey & Passport
     qualityTimeTab,
-    deepTalkCards,
-    currentDeepTalkIndex,
-    isDeepTalkFlipped,
-    nextDeepTalkCard,
-    shuffleDeepTalkDeck,
-    addDeepTalkQuestion,
-    deleteDeepTalkCard,
-
-    // Date Jar
-    dateIdeas,
-    selectedCategoryFilter,
-    lastDrawnIdea,
-    isJarShaking,
-    filteredDateIdeas,
-    shakeAndDrawDateIdea,
-    addDateIdea,
-    deleteDateIdea,
+    journeyMilestones,
+    addJourneyMilestone,
+    deleteJourneyMilestone,
 
     // Passport
     memories,

@@ -8,36 +8,39 @@
     >
       <!-- Modal Header -->
       <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm">
-            ⚙️
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
           </div>
           <div>
-            <h3 class="text-base font-extrabold text-slate-800">
-              Pengaturan Profil & Ruang Kita
+            <h3 class="text-sm sm:text-base font-extrabold text-slate-800">
+              Pengaturan Profil
             </h3>
             <p class="text-[11px] text-slate-400">
-              Sesuaikan identitas, tanggal jadian, dan kode rahasia
+              Kelola nama, tanggal jadian, dan kode rahasia
             </p>
           </div>
         </div>
         <button
           @click="emit('close')"
-          class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center text-sm"
+          class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center text-xs"
         >
-          ✕
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
       </div>
 
       <!-- Form -->
       <form @submit.prevent="handleSave" class="space-y-4">
-        <!-- Partner A (Mas / Sky) -->
+        <!-- Partner A (Mas) -->
         <div class="p-3.5 rounded-2xl bg-sky-50/70 border border-sky-100 space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-black uppercase text-sky-700 flex items-center gap-1">
-              <span>💙</span>
-              <span>Profil Partner A (Mas)</span>
-            </span>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-sky-500" />
+            <span class="text-xs font-black uppercase text-sky-800">Profil Partner A</span>
           </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
@@ -45,22 +48,22 @@
               <input
                 v-model="partnerA.name"
                 type="text"
-                placeholder="Nama Lengkap Mas"
+                placeholder="Nama Lengkap"
                 class="w-full px-3 py-1.5 rounded-xl glass-input text-xs font-semibold"
               />
             </div>
             <div>
-              <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Panggilan Sayang</label>
+              <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Panggilan</label>
               <input
                 v-model="partnerA.callsign"
                 type="text"
-                placeholder="Contoh: Mas / Ayang"
+                placeholder="Contoh: Mas"
                 class="w-full px-3 py-1.5 rounded-xl glass-input text-xs font-semibold"
               />
             </div>
           </div>
           <div>
-            <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Foto Avatar URL</label>
+            <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Foto Avatar (URL)</label>
             <input
               v-model="partnerA.avatar"
               type="text"
@@ -70,13 +73,11 @@
           </div>
         </div>
 
-        <!-- Partner B (Adek / Rose) -->
+        <!-- Partner B (Adek) -->
         <div class="p-3.5 rounded-2xl bg-rose-50/70 border border-rose-100 space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-black uppercase text-rose-700 flex items-center gap-1">
-              <span>💖</span>
-              <span>Profil Partner B (Adek)</span>
-            </span>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-500" />
+            <span class="text-xs font-black uppercase text-rose-800">Profil Partner B</span>
           </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
@@ -84,22 +85,22 @@
               <input
                 v-model="partnerB.name"
                 type="text"
-                placeholder="Nama Lengkap Adek"
+                placeholder="Nama Lengkap"
                 class="w-full px-3 py-1.5 rounded-xl glass-input text-xs font-semibold"
               />
             </div>
             <div>
-              <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Panggilan Sayang</label>
+              <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Panggilan</label>
               <input
                 v-model="partnerB.callsign"
                 type="text"
-                placeholder="Contoh: Adek / Sayang"
+                placeholder="Contoh: Adek"
                 class="w-full px-3 py-1.5 rounded-xl glass-input text-xs font-semibold"
               />
             </div>
           </div>
           <div>
-            <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Foto Avatar URL</label>
+            <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Foto Avatar (URL)</label>
             <input
               v-model="partnerB.avatar"
               type="text"
@@ -137,19 +138,23 @@
           <button
             type="button"
             @click="handleClearData"
-            class="text-[11px] text-red-500 hover:text-red-700 font-bold flex items-center gap-1"
+            class="text-[11px] text-red-500 hover:text-red-700 font-bold flex items-center gap-1.5"
           >
-            <span>🗑️</span>
-            <span>Hapus / Bersihkan Semua Data</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            <span>Bersihkan Semua Data</span>
           </button>
         </div>
 
         <!-- Save Button -->
         <button
           type="submit"
-          class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-soft via-pink-400 to-sky-serene text-white text-xs font-bold shadow-liquid-rose soft-tactile-btn flex items-center justify-center gap-1.5"
+          class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-sky-500 text-white text-xs font-bold shadow-md soft-tactile-btn flex items-center justify-center gap-2"
         >
-          <span>💾</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
           <span>Simpan Perubahan</span>
         </button>
       </form>
@@ -213,7 +218,7 @@ function handleSave() {
 }
 
 function handleClearData() {
-  if (confirm('Yakin ingin menghapus semua catatan, lagu, pertanyaan, dan tiket kencan untuk memulai dari awal yang bersih?')) {
+  if (confirm('Yakin ingin menghapus semua catatan, lagu, perjalanan, dan kenangan kencan untuk memulai dari awal yang bersih?')) {
     audio.playKeyClick(300)
     store.clearAllData()
     emit('close')

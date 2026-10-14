@@ -2,10 +2,12 @@
   <div class="space-y-4">
     <!-- Section Title -->
     <div class="flex items-center justify-between px-1">
-      <div class="flex items-center gap-1.5">
-        <span class="text-sm">⚡</span>
-        <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">
-          Status & Mood Kita Hari Ini
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-600">
+          Status & Energi Kita
         </h2>
       </div>
       <span class="text-[10px] text-slate-400 font-medium">
@@ -15,7 +17,6 @@
 
     <!-- Dual Partner Status Cards (Mas & Adek) -->
     <div class="grid grid-cols-1 gap-3.5">
-      <!-- Card for Partner: Loop over both partners -->
       <div
         v-for="p in [store.partners.mas, store.partners.adek]"
         :key="p.id"
@@ -51,7 +52,7 @@
                   class="text-[9px] font-bold px-1.5 py-0.2 rounded-full uppercase"
                   :class="p.id === 'mas' ? 'bg-sky-100 text-sky-700' : 'bg-rose-100 text-rose-700'"
                 >
-                  Kamu
+                  Aktif
                 </span>
               </div>
               <p class="text-[10px] text-slate-400">
@@ -65,21 +66,20 @@
             class="px-2.5 py-1 rounded-full text-xs font-extrabold flex items-center gap-1.5 border"
             :class="getBatteryBadgeClass(p.battery, p.id)"
           >
-            <span>{{ getBatteryIcon(p.battery) }}</span>
+            <span class="w-2 h-2 rounded-full" :class="p.battery > 50 ? 'bg-emerald-500' : 'bg-amber-500'" />
             <span>{{ p.battery }}%</span>
           </div>
         </div>
 
-        <!-- Battery Energy Bar (Slider for Active Partner, Static display for other) -->
+        <!-- Battery Energy Bar -->
         <div class="mb-3.5 relative z-10">
           <div class="flex items-center justify-between text-[11px] font-bold text-slate-600 mb-1.5">
-            <span>Energy / Social Battery</span>
+            <span>Level Energi Sosial</span>
             <span class="text-[10px] text-slate-400 font-normal">
-              {{ p.id === store.activePartnerId ? 'Geser untuk update' : 'Level baterai pasangan' }}
+              {{ p.id === store.activePartnerId ? 'Geser untuk memperbarui' : 'Status pasangan' }}
             </span>
           </div>
 
-          <!-- Interactive Slider if Active Partner, Progress bar if Other -->
           <div v-if="p.id === store.activePartnerId" class="relative flex items-center">
             <input
               type="range"
@@ -88,7 +88,7 @@
               step="5"
               v-model.number="myBattery"
               @input="handleBatteryChange"
-              class="w-full h-2.5 rounded-full appearance-none cursor-pointer bg-slate-200/80"
+              class="w-full h-2 rounded-full appearance-none cursor-pointer bg-slate-200/80"
               :class="p.id === 'mas' ? 'accent-sky-500' : 'accent-rose-500'"
             />
           </div>
@@ -105,11 +105,15 @@
         <!-- Mood & Craving Info -->
         <div class="space-y-2 relative z-10">
           <!-- Mood Row -->
-          <div class="p-2.5 rounded-2xl bg-white/70 border border-white/80 shadow-xs flex items-start gap-2">
-            <span class="text-sm mt-0.5">💭</span>
+          <div class="p-2.5 rounded-2xl bg-white/70 border border-white/80 shadow-xs flex items-start gap-2.5">
+            <div class="w-5 h-5 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
             <div class="flex-1">
               <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                Mood Sekarang
+                Kondisi Hati
               </span>
               <p class="text-xs font-semibold text-slate-700">
                 {{ p.mood }}
@@ -118,11 +122,15 @@
           </div>
 
           <!-- Craving Row -->
-          <div class="p-2.5 rounded-2xl bg-white/70 border border-white/80 shadow-xs flex items-start gap-2">
-            <span class="text-sm mt-0.5">🍩</span>
+          <div class="p-2.5 rounded-2xl bg-white/70 border border-white/80 shadow-xs flex items-start gap-2.5">
+            <div class="w-5 h-5 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </div>
             <div class="flex-1">
               <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                Lagi Pengen / Craving
+                Sedang Ingin
               </span>
               <p class="text-xs font-semibold text-slate-700">
                 {{ p.craving }}
@@ -135,17 +143,17 @@
         <div v-if="p.id === store.activePartnerId" class="mt-3 pt-3 border-t border-slate-100 relative z-10">
           <div class="flex items-center justify-between mb-2">
             <span class="text-[10px] font-bold text-slate-500 uppercase">
-              Update Mood Cepat:
+              Pilihan Cepat:
             </span>
             <button
               @click="showCustomMoodPrompt = !showCustomMoodPrompt"
-              class="text-[11px] font-semibold text-rose-500 hover:underline"
+              class="text-[11px] font-semibold text-rose-600 hover:underline"
             >
-              {{ showCustomMoodPrompt ? 'Tutup' : '+ Tulis Custom' }}
+              {{ showCustomMoodPrompt ? 'Tutup' : '+ Tulis Sendiri' }}
             </button>
           </div>
 
-          <!-- Preset Craving Pills -->
+          <!-- Clean Preset Chips without emojis -->
           <div class="flex flex-wrap gap-1.5 mb-2">
             <button
               v-for="(tag, idx) in presetMoods"
@@ -153,7 +161,7 @@
               @click="applyPresetMood(tag.mood, tag.craving)"
               class="px-2.5 py-1 rounded-xl bg-white/80 border border-slate-200/80 text-[11px] font-medium text-slate-600 hover:border-rose-300 hover:text-rose-600 transition-all active:scale-95 shadow-xs"
             >
-              {{ tag.emoji }} {{ tag.label }}
+              {{ tag.label }}
             </button>
           </div>
 
@@ -162,20 +170,20 @@
             <input
               v-model="customMood"
               type="text"
-              placeholder="Apa yang lagi kamu rasain? (Contoh: Butuh ditemenin ngobrol)"
+              placeholder="Apa yang sedang kamu rasakan saat ini?"
               class="w-full px-3 py-1.5 rounded-xl glass-input text-xs"
             />
             <input
               v-model="customCraving"
               type="text"
-              placeholder="Lagi pengen makan/ngapain? (Contoh: Pengen es krim gelato)"
+              placeholder="Sedang ingin melakukan atau makan apa?"
               class="w-full px-3 py-1.5 rounded-xl glass-input text-xs"
             />
             <button
               @click="saveCustomStatus"
-              class="w-full py-1.5 rounded-xl bg-slate-800 text-white text-xs font-bold hover:bg-slate-900 transition-all"
+              class="w-full py-2 rounded-xl bg-slate-800 text-white text-xs font-bold hover:bg-slate-900 transition-all"
             >
-              Simpan Mood Saya
+              Perbarui Status
             </button>
           </div>
         </div>
@@ -205,11 +213,10 @@ watch(
 )
 
 const presetMoods = [
-  { emoji: '🤗', label: 'Butuh Dipeluk', mood: 'Butuh dipeluk erat & disayang 💕', craving: 'Pelukan hangat 10 menit' },
-  { emoji: '🍦', label: 'Pengen Es Krim', mood: 'Sedikit lelah tapi bahagia', craving: 'Es krim coklat/gelato manis' },
-  { emoji: '☕', label: 'Ngopi Berdua', mood: 'Santai & butuh obrolan deep talk', craving: 'Kopi susu & pastry hangat' },
-  { emoji: '🔋', label: 'Low Battery', mood: 'Energi habis butuh istirahat', craving: 'Tidur pulas diusap kepalanya' },
-  { emoji: '🥰', label: 'Bucin Maksimal', mood: 'Kangen parah sama kamu!', craving: 'Video call / ketemu sekarang' }
+  { label: 'Butuh Istirahat', mood: 'Energi habis, butuh tenang berdua', craving: 'Rebahan santai tanpa gangguan' },
+  { label: 'Quality Time', mood: 'Kangen mengobrol lama', craving: 'Ngobrol santai & bercerita' },
+  { label: 'Jalan Santai', mood: 'Segar dan ingin keluar', craving: 'Jalan sore atau kulineran' },
+  { label: 'Butuh Didengarkan', mood: 'Banyak pikiran seharian', craving: 'Ditemani dan didengarkan' }
 ]
 
 function getBatteryBadgeClass(battery: number, id: string) {
@@ -219,13 +226,7 @@ function getBatteryBadgeClass(battery: number, id: string) {
   if (battery > 35) {
     return 'bg-amber-50 text-amber-700 border-amber-200'
   }
-  return 'bg-red-50 text-red-600 border-red-200 animate-pulse'
-}
-
-function getBatteryIcon(battery: number) {
-  if (battery > 75) return '🔋'
-  if (battery > 40) return '🪫'
-  return '⚠️'
+  return 'bg-red-50 text-red-600 border-red-200'
 }
 
 function handleBatteryChange() {

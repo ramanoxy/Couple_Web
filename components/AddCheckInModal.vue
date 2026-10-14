@@ -8,24 +8,29 @@
     >
       <!-- Header -->
       <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-sm">
-            🛂
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
           </div>
           <div>
-            <h3 class="text-base font-extrabold text-slate-800">
-              Check-in Quality Time
+            <h3 class="text-sm sm:text-base font-extrabold text-slate-800">
+              Check-in Kencan
             </h3>
             <p class="text-[11px] text-slate-400">
-              Dicatat oleh: <strong :class="store.activePartnerId === 'mas' ? 'text-sky-600' : 'text-rose-600'">{{ store.activePartner.callsign }}</strong>
+              Dicatat oleh {{ store.activePartner.callsign }}
             </p>
           </div>
         </div>
         <button
           @click="emit('close')"
-          class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center text-sm"
+          class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center text-xs"
         >
-          ✕
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
       </div>
 
@@ -38,7 +43,7 @@
             v-model="form.title"
             required
             type="text"
-            placeholder="Contoh: Sunset Hunting & Angin Sejuk Tebing Breksi"
+            placeholder="Contoh: Sunset Hunting di Tebing Breksi"
             class="w-full px-3.5 py-2.5 rounded-2xl glass-input text-xs text-slate-800 font-medium"
           />
         </div>
@@ -67,65 +72,55 @@
           </div>
         </div>
 
-        <!-- Heart Rating (1-5 Hearts) -->
+        <!-- Rating -->
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1.5">Rating Kebahagiaan</label>
-          <div class="flex items-center gap-2">
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">Rating Momen</label>
+          <div class="flex items-center gap-1.5">
             <button
               v-for="r in 5"
               :key="r"
               type="button"
               @click="form.rating = r"
-              class="text-2xl transition-transform hover:scale-125 active:scale-95"
+              class="p-1 transition-transform hover:scale-125 active:scale-95 text-slate-300"
+              :class="{ 'text-rose-500': r <= form.rating }"
             >
-              <span :class="r <= form.rating ? 'text-rose-500' : 'text-slate-300'">❤️</span>
+              <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
             </button>
-            <span class="text-xs font-bold text-rose-500 ml-2">{{ form.rating }} / 5 Hearts</span>
+            <span class="text-xs font-bold text-rose-600 ml-2">{{ form.rating }} / 5</span>
           </div>
         </div>
 
-        <!-- Photo URL & Preview -->
+        <!-- Photo URL -->
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Foto Kenangan</label>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Foto Kenangan (Link URL)</label>
           <input
             v-model="form.photoUrl"
             type="text"
-            placeholder="Link foto atau pilih preset di bawah"
+            placeholder="Masukkan tautan foto (https://...)"
             class="w-full px-3.5 py-2.5 rounded-2xl glass-input text-xs text-slate-800 font-medium mb-2"
           />
-          <!-- Presets -->
-          <div class="flex gap-2">
-            <button
-              v-for="(img, idx) in presetPhotos"
-              :key="idx"
-              type="button"
-              @click="form.photoUrl = img"
-              class="w-12 h-12 rounded-xl overflow-hidden border-2 transition-all"
-              :class="form.photoUrl === img ? 'border-rose-500 scale-105' : 'border-transparent opacity-70'"
-            >
-              <img :src="img" class="w-full h-full object-cover" />
-            </button>
-          </div>
         </div>
 
         <!-- Mas Impression -->
         <div>
-          <label class="block text-xs font-bold text-sky-700 mb-1">Kesan 1 Kalimat dari {{ store.partners.mas.callsign }} 💙</label>
+          <label class="block text-xs font-bold text-sky-700 mb-1">Kesan 1 Kalimat dari {{ store.partners.mas.callsign }}</label>
           <input
             v-model="form.masImpression"
             type="text"
-            :placeholder="`Apa momen paling berkesan buat ${store.partners.mas.callsign}?`"
+            :placeholder="`Apa kesan paling berharga buat ${store.partners.mas.callsign}?`"
             class="w-full px-3.5 py-2.5 rounded-2xl glass-input text-xs text-slate-800 font-medium"
           />
         </div>
 
         <!-- Adek Impression -->
         <div>
-          <label class="block text-xs font-bold text-rose-600 mb-1">Kesan 1 Kalimat dari {{ store.partners.adek.callsign }} 💖</label>
+          <label class="block text-xs font-bold text-rose-600 mb-1">Kesan 1 Kalimat dari {{ store.partners.adek.callsign }}</label>
           <input
             v-model="form.adekImpression"
             type="text"
-            :placeholder="`Apa momen paling bikin ${store.partners.adek.callsign} bahagia?`"
+            :placeholder="`Apa kesan paling berharga buat ${store.partners.adek.callsign}?`"
             class="w-full px-3.5 py-2.5 rounded-2xl glass-input text-xs text-slate-800 font-medium"
           />
         </div>
@@ -144,10 +139,12 @@
         <!-- Submit Button -->
         <button
           type="submit"
-          class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-soft via-pink-400 to-sky-serene text-white text-xs font-bold shadow-liquid-rose soft-tactile-btn mt-2 flex items-center justify-center gap-1.5"
+          class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-sky-500 text-white text-xs font-bold shadow-md soft-tactile-btn mt-2 flex items-center justify-center gap-2"
         >
-          <span>🛂</span>
-          <span>Cap Paspor Kenangan Kita</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>Simpan ke Paspor Kencan</span>
         </button>
       </form>
     </div>
@@ -170,21 +167,15 @@ const emit = defineEmits<{
 const store = useCoupleStore()
 const audio = useAudioEngine()
 
-const presetPhotos = [
-  'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=700&q=80',
-  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=700&q=80',
-  'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=700&q=80',
-  'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=700&q=80'
-]
-
-const tagInput = ref('Quality Time, Date Night')
+const presetDefault = 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=700&q=80'
+const tagInput = ref('Quality Time, Date')
 
 const form = reactive({
   title: '',
   date: 'Hari ini',
-  location: 'Bandung / Jakarta',
+  location: 'Indonesia',
   rating: 5,
-  photoUrl: presetPhotos[0],
+  photoUrl: '',
   masImpression: '',
   adekImpression: ''
 })
@@ -201,18 +192,19 @@ function handleSubmit() {
   store.addMemory({
     title: form.title.trim(),
     date: form.date.trim(),
-    location: form.location.trim(),
+    location: form.location.trim() || 'Tempat Spesial',
     rating: form.rating,
-    photoUrl: form.photoUrl || presetPhotos[0],
-    masImpression: form.masImpression.trim() || 'Momen yang sangat berharga bareng kamu.',
-    adekImpression: form.adekImpression.trim() || 'Bahagia banget bisa ngelewatin hari ini bareng Mas.',
-    tags: tags.length ? tags : ['Romantic Date']
+    photoUrl: form.photoUrl.trim() || presetDefault,
+    masImpression: form.masImpression.trim() || 'Momen yang sangat berharga.',
+    adekImpression: form.adekImpression.trim() || 'Sangat bahagia di momen ini.',
+    tags: tags.length ? tags : ['Date']
   })
 
   // Reset
   form.title = ''
   form.masImpression = ''
   form.adekImpression = ''
+  form.photoUrl = ''
   emit('close')
 }
 </script>

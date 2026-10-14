@@ -21,9 +21,11 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <!-- Left: Couple Identity & Anniversary Badge -->
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-soft via-pink-400 to-sky-serene p-0.5 shadow-sm flex items-center justify-center flex-shrink-0">
-              <div class="w-full h-full rounded-[14px] bg-white/90 flex items-center justify-center text-lg">
-                💑
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-400 via-pink-400 to-sky-400 p-0.5 shadow-sm flex items-center justify-center flex-shrink-0">
+              <div class="w-full h-full rounded-[14px] bg-white/95 flex items-center justify-center text-rose-500">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
               </div>
             </div>
             <div>
@@ -72,9 +74,12 @@
             <button
               @click="store.isProfileModalOpen = true"
               class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/70 border border-white/80 shadow-sm flex items-center justify-center text-slate-600 hover:text-slate-900 soft-tactile-btn"
-              title="Pengaturan Profil & Ruang"
+              title="Pengaturan Profil"
             >
-              <span class="text-xs sm:text-sm">⚙️</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
             </button>
 
             <!-- Sound Mute/Play Toggle -->
@@ -83,7 +88,13 @@
               class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/70 border border-white/80 shadow-sm flex items-center justify-center text-slate-600 hover:text-slate-900 soft-tactile-btn"
               :title="isMuted ? 'Nyalakan Musik' : 'Heningkan'"
             >
-              <span class="text-xs sm:text-sm">{{ isMuted ? '🔇' : '🎵' }}</span>
+              <svg v-if="!isMuted" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              </svg>
+              <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+              </svg>
             </button>
 
             <!-- Lock Space -->
@@ -108,11 +119,15 @@
         <div class="lg:col-span-4 space-y-4 sm:space-y-6">
           <!-- Couple Milestone Card -->
           <div class="glass-surface p-3 sm:p-3.5 rounded-2xl flex items-center justify-between text-xs font-semibold shadow-xs">
-            <div class="flex items-center gap-2">
-              <span class="text-sm">🗓️</span>
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
               <div>
                 <span class="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">
-                  Hari Jadian Kita
+                  Hari Jadian
                 </span>
                 <span class="text-xs font-extrabold text-slate-800">
                   {{ store.anniversaryDate }}
@@ -121,9 +136,9 @@
             </div>
             <button
               @click="store.isProfileModalOpen = true"
-              class="px-2.5 py-1 rounded-full bg-gradient-to-r from-rose-soft/80 to-sky-serene/80 text-slate-800 text-[10px] font-black shadow-xs hover:scale-105 transition-all"
+              class="px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-700 text-[10px] font-bold shadow-xs hover:border-rose-300 transition-all"
             >
-              ❤️ Edit Tanggal
+              Ubah Tanggal
             </button>
           </div>
 
@@ -145,9 +160,11 @@
               class="flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2"
               :class="store.activeTab === 'home' ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-sm' : 'text-slate-600 hover:bg-white/60'"
             >
-              <span>🏡</span>
-              <span>Dinding Pesan Cinta</span>
-              <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/20 font-black">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+              <span>Dinding Pesan</span>
+              <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/20 font-bold">
                 {{ store.stickyNotes.length }}
               </span>
             </button>
@@ -157,8 +174,10 @@
               class="flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2"
               :class="store.activeTab === 'quality-time' ? 'bg-gradient-to-r from-sky-500 to-indigo-500 text-white shadow-sm' : 'text-slate-600 hover:bg-white/60'"
             >
-              <span>✨</span>
-              <span>Our Quality Time Hub</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+              <span>Quality Time Hub</span>
             </button>
           </div>
 
@@ -174,7 +193,7 @@
               <StickyNotesWall />
             </div>
 
-            <!-- 2. Quality Time Hub Tab (Deep Talk Deck, Date Jar, Passport) -->
+            <!-- 2. Quality Time Hub Tab (Journey Milestones & Passport) -->
             <div v-else-if="store.activeTab === 'quality-time'" key="quality">
               <QualityTimeHub />
             </div>

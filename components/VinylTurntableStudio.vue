@@ -3,13 +3,17 @@
     <!-- Header Row -->
     <div class="flex items-center justify-between pb-3 border-b border-slate-100/80 mb-3">
       <div class="flex items-center gap-2">
-        <span class="text-lg">💿</span>
+        <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center flex-shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+          </svg>
+        </div>
         <div>
           <h3 class="text-xs font-black uppercase tracking-wider text-slate-800">
             Vinyl Turntable Studio
           </h3>
           <p class="text-[10px] text-slate-400 font-medium">
-            Pemutar piringan hitam kenangan cinta
+            Pemutar piringan hitam kenangan
           </p>
         </div>
       </div>
@@ -19,27 +23,35 @@
         @click="isAddModalOpen = true"
         class="px-2.5 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-200 text-[11px] font-bold hover:bg-rose-100 flex items-center gap-1 soft-tactile-btn"
       >
-        <span>+</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
         <span>Lagu Baru</span>
       </button>
     </div>
 
     <!-- Empty State if zero songs -->
     <div v-if="!store.currentTrack" class="py-6 text-center flex flex-col items-center">
-      <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-rose-50 border-2 border-dashed border-rose-200 flex items-center justify-center text-3xl sm:text-4xl mb-2.5 shadow-inner">
-        💿
+      <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-rose-50 border-2 border-dashed border-rose-200 flex items-center justify-center text-rose-400 mb-2.5 shadow-inner">
+        <svg class="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9" stroke-width="1.5" />
+          <circle cx="12" cy="12" r="3" stroke-width="1.5" />
+        </svg>
       </div>
       <h4 class="text-xs sm:text-sm font-bold text-slate-700 mb-1">
         Piringan Hitam Masih Kosong
       </h4>
       <p class="text-[10px] sm:text-xs text-slate-400 max-w-xs mb-3.5 leading-relaxed">
-        Tambahkan lagu favorit pertama yang paling bermakna bagi perjalanan cinta kalian berdua!
+        Tambahkan lagu favorit pertama yang paling bermakna bagi kalian berdua.
       </p>
       <button
         @click="isAddModalOpen = true"
-        class="py-2 px-4 rounded-xl bg-gradient-to-r from-rose-soft via-pink-400 to-sky-serene text-white text-[11px] sm:text-xs font-bold shadow-sm soft-tactile-btn hover:scale-105 transition-all"
+        class="py-2 px-4 rounded-xl bg-gradient-to-r from-rose-soft via-pink-400 to-sky-serene text-white text-[11px] sm:text-xs font-bold shadow-sm soft-tactile-btn hover:scale-105 transition-all flex items-center gap-1.5"
       >
-        + Tambah Lagu Kenangan
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        <span>Tambah Lagu Kenangan</span>
       </button>
     </div>
 
@@ -61,12 +73,10 @@
               class="relative w-36 h-36 sm:w-40 sm:h-40 rounded-full bg-slate-950 p-1.5 shadow-xl flex items-center justify-center border-4 border-slate-800"
               :class="{ 'animate-spin-vinyl': store.isPlaying }"
             >
-              <!-- Vinyl Grooves -->
               <div class="absolute inset-2 rounded-full border border-slate-700/60 pointer-events-none" />
               <div class="absolute inset-4 rounded-full border border-slate-700/50 pointer-events-none" />
               <div class="absolute inset-6 rounded-full border border-slate-700/40 pointer-events-none" />
 
-              <!-- Center Album Cover Art -->
               <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-white/90 shadow-md relative z-10">
                 <img
                   :src="store.currentTrack.coverUrl"
@@ -75,13 +85,11 @@
                 />
               </div>
 
-              <!-- Center Spindle Hole -->
               <div class="absolute w-2 h-2 rounded-full bg-slate-900 border border-slate-700 z-20" />
             </div>
 
-            <p class="text-[9px] sm:text-[10px] text-slate-400 mt-2 font-medium flex items-center gap-1">
-              <span>Ketuk untuk baca cerita cinta di baliknya</span>
-              <span>📖</span>
+            <p class="text-[10px] text-slate-400 mt-2 font-medium flex items-center gap-1">
+              <span>Ketuk piringan hitam untuk membaca cerita</span>
             </p>
           </div>
 
@@ -91,9 +99,8 @@
           >
             <div>
               <div class="flex items-center justify-between mb-1">
-                <span class="text-[10px] font-bold text-rose-500 uppercase flex items-center gap-1">
-                  <span>💌</span>
-                  <span>Cerita di Balik Lagu</span>
+                <span class="text-[10px] font-bold text-rose-600 uppercase">
+                  Cerita di Balik Lagu
                 </span>
                 <span class="text-[9px] text-slate-400">
                   {{ store.currentTrack.createdAt }}
@@ -116,7 +123,7 @@
 
             <div class="pt-2 border-t border-rose-100 flex items-center justify-between text-[10px] text-slate-400">
               <span>Ditambahkan oleh: <strong>{{ store.currentTrack.addedBy === 'mas' ? store.partners.mas.callsign : store.partners.adek.callsign }}</strong></span>
-              <span class="text-rose-500 font-semibold">Balik 🔄</span>
+              <span class="text-rose-500 font-semibold">Kembali</span>
             </div>
           </div>
         </div>
@@ -188,7 +195,7 @@
           <span>Daftar Lagu ({{ store.playlist.length }})</span>
           <button
             @click="isAddModalOpen = true"
-            class="text-rose-500 font-bold hover:underline"
+            class="text-rose-600 font-bold hover:underline"
           >
             + Tambah
           </button>
@@ -203,13 +210,18 @@
             :class="store.currentTrackIndex === idx ? 'bg-rose-50 border-rose-200 font-bold text-slate-800' : 'bg-white/60 border-slate-100 text-slate-600 hover:bg-white'"
           >
             <div class="flex items-center gap-1.5 truncate">
-              <span>{{ store.currentTrackIndex === idx && store.isPlaying ? '🔊' : '🎵' }}</span>
+              <svg v-if="store.currentTrackIndex === idx && store.isPlaying" class="w-3 h-3 text-rose-500 animate-pulse flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              </svg>
+              <svg v-else class="w-3 h-3 text-slate-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" />
+              </svg>
               <span class="truncate">{{ song.title }} — {{ song.artist }}</span>
             </div>
             <button
               @click.stop="store.deleteSong(song.id)"
               class="text-slate-300 hover:text-red-500 ml-1 text-xs"
-              title="Hapus"
+              title="Hapus lagu"
             >
               ✕
             </button>

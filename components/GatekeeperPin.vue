@@ -13,7 +13,7 @@
       backgroundColor: store.isGatekeeperMelting ? 'rgba(255, 253, 249, 0)' : 'rgba(255, 253, 249, 0.42)'
     }"
   >
-    <!-- Background Floating Blobs inside the Gatekeeper modal for depth -->
+    <!-- Background Floating Blobs -->
     <div class="absolute inset-0 pointer-events-none overflow-hidden">
       <div class="absolute -top-10 -left-10 w-72 h-72 bg-rose-soft/30 rounded-full blur-2xl animate-blob-1" />
       <div class="absolute -bottom-10 -right-10 w-72 h-72 bg-sky-serene/30 rounded-full blur-2xl animate-blob-2" />
@@ -23,7 +23,6 @@
     <div
       class="relative w-full max-w-sm rounded-[36px] bg-white/60 backdrop-blur-2xl border border-white/80 p-7 shadow-[0_20px_50px_rgba(31,38,135,0.12)] flex flex-col items-center text-center overflow-hidden"
     >
-      <!-- Subtle top inner ambient highlight -->
       <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-80" />
 
       <!-- Romantic Header Badge & Icon -->
@@ -33,25 +32,25 @@
           class="relative w-20 h-20 rounded-full p-1 bg-gradient-to-tr from-rose-soft/40 via-white to-sky-serene/40 shadow-liquid flex items-center justify-center"
           :class="{ 'animate-spin-vinyl': store.isGatekeeperMelting || isUnlocking }"
         >
-          <!-- Vinyl Disc -->
           <div class="w-full h-full rounded-full bg-slate-900 border-2 border-slate-700/60 shadow-inner flex items-center justify-center relative overflow-hidden">
-            <!-- Vinyl Grooves -->
             <div class="absolute inset-2 rounded-full border border-slate-700/50" />
             <div class="absolute inset-4 rounded-full border border-slate-700/40" />
             <div class="absolute inset-6 rounded-full border border-slate-700/30" />
             
-            <!-- Vinyl Center Label -->
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-rose-soft to-sky-serene flex items-center justify-center shadow-md">
-              <span class="text-[11px] font-bold text-slate-800">24</span>
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-rose-soft to-sky-serene flex items-center justify-center shadow-md text-slate-800">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
             </div>
-            <!-- Center Spindle Hole -->
             <div class="absolute w-1.5 h-1.5 rounded-full bg-slate-900" />
           </div>
         </div>
 
-        <!-- Floating Heart Tag -->
-        <div class="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-rose-soft/90 backdrop-blur-sm text-white flex items-center justify-center text-xs shadow-sm">
-          ❤️
+        <!-- Lock Status Badge -->
+        <div class="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-rose-500 text-white flex items-center justify-center shadow-sm">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
         </div>
       </div>
 
@@ -60,7 +59,7 @@
         Rumah Kita Berdua
       </h2>
       <p class="text-xs text-slate-500 font-medium max-w-[240px] leading-relaxed mb-6">
-        Ruang rahasia {{ store.partners.mas.callsign }} & {{ store.partners.adek.callsign }}. Masukkan 4-digit kode cinta kita.
+        Ruang rahasia {{ store.partners.mas.callsign }} & {{ store.partners.adek.callsign }}. Masukkan 4-digit kode rahasia.
       </p>
 
       <!-- PIN Indicator Dots -->
@@ -102,7 +101,9 @@
           v-if="warningMessage"
           class="mb-3 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-semibold shadow-sm flex items-center gap-1.5"
         >
-          <span>🥺</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
           <span>{{ warningMessage }}</span>
         </div>
       </transition>
@@ -110,16 +111,19 @@
       <!-- Clue Hint Toggle -->
       <button
         @click="showClue = !showClue"
-        class="text-[11px] text-slate-400 hover:text-rose-500 transition-colors mb-4 flex items-center gap-1 font-medium"
+        class="text-[11px] text-slate-400 hover:text-rose-600 transition-colors mb-4 flex items-center gap-1 font-medium"
       >
-        <span>{{ showClue ? 'Sembunyikan Clue' : 'Lupa kodenya? Lihat petunjuk 💡' }}</span>
+        <span>{{ showClue ? 'Sembunyikan Petunjuk' : 'Lupa kodenya? Lihat petunjuk' }}</span>
       </button>
 
       <div
         v-if="showClue"
-        class="mb-4 px-3 py-2 rounded-2xl bg-sky-50/80 border border-sky-100 text-sky-800 text-xs font-medium text-left w-full"
+        class="mb-4 px-3.5 py-2.5 rounded-2xl bg-sky-50/90 border border-sky-100 text-sky-800 text-xs font-medium text-left w-full flex items-start gap-2"
       >
-        <p>💡 <b>Petunjuk:</b> Tanggal jadian kita berdua ({{ store.anniversaryDate }} = PIN: <b>{{ store.secretPin }}</b>)</p>
+        <svg class="w-4 h-4 text-sky-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p>Petunjuk: Tanggal jadian kita berdua ({{ store.anniversaryDate }} = PIN: <b>{{ store.secretPin }}</b>)</p>
       </div>
 
       <!-- Tactile Soft-UI Keypad Grid -->
@@ -133,7 +137,6 @@
           {{ digit }}
         </button>
 
-        <!-- Clear Button -->
         <button
           @click="handleClear"
           class="h-14 rounded-2xl bg-white/40 backdrop-blur-md border border-white/60 text-slate-500 text-xs font-bold soft-tactile-btn flex items-center justify-center hover:text-slate-700 active:scale-95 uppercase tracking-wider"
@@ -141,7 +144,6 @@
           Clear
         </button>
 
-        <!-- Digit 0 -->
         <button
           @click="handleDigitPress('0')"
           class="h-14 rounded-2xl bg-white/70 backdrop-blur-md border border-white text-slate-700 text-xl font-bold soft-tactile-btn flex items-center justify-center hover:bg-white/90 active:scale-95"
@@ -149,7 +151,6 @@
           0
         </button>
 
-        <!-- Delete / Backspace Button -->
         <button
           @click="handleDelete"
           class="h-14 rounded-2xl bg-white/40 backdrop-blur-md border border-white/60 text-slate-500 text-sm font-semibold soft-tactile-btn flex items-center justify-center hover:text-rose-600 active:scale-95"
@@ -188,10 +189,9 @@ const warningMessage = ref('')
 const showClue = ref(false)
 
 const wrongGreetings = [
-  'Hmm, masa lupa kode rahasia rumah kita? 🥺',
-  'Ayo inget-inget tanggal jadian kita, sayang! 💕',
-  'Bukan itu kodenya.. Masih mau ditebak lagi? 🌸',
-  'Duh gemasnya, coba ketik 2408 yaa cinta! 🥰'
+  'Kode rahasia yang dimasukkan belum tepat.',
+  'Coba ingat kembali tanggal rahasia kita.',
+  'PIN salah, silakan coba kembali.'
 ]
 
 function handleDigitPress(digit: string) {
@@ -247,11 +247,9 @@ function triggerCorrectUnlockTransition() {
   isUnlocking.value = true
   warningMessage.value = ''
 
-  // 1. Play chime and gentle 1-second vinyl crackle effect
   audio.playUnlockChime()
   audio.playVinylCrackle()
 
-  // 2. Smoothly fade in main music track from 0 to 0.8
   store.isPlaying = true
   if (store.currentTrack) {
     audio.playTrackWithFadeIn(store.currentTrack.audioUrl, 0.8, (cur, dur) => {
@@ -260,12 +258,11 @@ function triggerCorrectUnlockTransition() {
     })
   }
 
-  // 3. Trigger Gatekeeper melting glass transition (backdrop melts, scale 1.05, opacity 0 over 800ms)
   store.unlockSpace()
 }
 
 function instantUnlockDemo() {
-  pinInput.value = '2408'
+  pinInput.value = store.secretPin
   triggerCorrectUnlockTransition()
 }
 </script>
