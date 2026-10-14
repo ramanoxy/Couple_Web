@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export type PartnerId = 'mas' | 'adek'
+export type PartnerId = 'men' | 'women'
 
 export interface Partner {
   id: PartnerId
@@ -57,8 +57,8 @@ export interface MemoryPassport {
   location: string
   rating: number
   photoUrl: string
-  masImpression: string
-  adekImpression: string
+  menImpression: string
+  womenImpression: string
   tags: string[]
   addedBy: PartnerId
 }
@@ -77,15 +77,15 @@ export const useCoupleStore = defineStore('coupleStore', () => {
   const isProfileModalOpen = ref(false)
 
   // --- Active Identity ("Who's Home?") ---
-  const activePartnerId = ref<PartnerId>('mas')
+  const activePartnerId = ref<PartnerId>('men')
 
   // Clean Partners Profile Data
   const partners = ref<Record<PartnerId, Partner>>({
-    mas: {
-      id: 'mas',
-      name: 'Partner A',
-      callsign: 'Mas',
-      role: 'Mas',
+    men: {
+      id: 'men',
+      name: 'Partner Men',
+      callsign: 'Men',
+      role: 'Men',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
       accent: 'sky',
       battery: 100,
@@ -93,11 +93,11 @@ export const useCoupleStore = defineStore('coupleStore', () => {
       craving: 'Belum ada keinginan khusus',
       lastUpdated: 'Hari ini'
     },
-    adek: {
-      id: 'adek',
-      name: 'Partner B',
-      callsign: 'Adek',
-      role: 'Adek',
+    women: {
+      id: 'women',
+      name: 'Partner Women',
+      callsign: 'Women',
+      role: 'Women',
       avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
       accent: 'rose',
       battery: 100,
@@ -108,7 +108,7 @@ export const useCoupleStore = defineStore('coupleStore', () => {
   })
 
   const activePartner = computed(() => partners.value[activePartnerId.value])
-  const otherPartner = computed(() => partners.value[activePartnerId.value === 'mas' ? 'adek' : 'mas'])
+  const otherPartner = computed(() => partners.value[activePartnerId.value === 'men' ? 'women' : 'men'])
 
   function switchPartner(id: PartnerId) {
     activePartnerId.value = id
@@ -280,14 +280,14 @@ export const useCoupleStore = defineStore('coupleStore', () => {
     saveToStorage()
   }
 
-  // Persistence to LocalStorage (Version 3)
-  const STORAGE_KEY = 'couple_web_space_data_v3'
+  // Persistence to LocalStorage (Version 4: Men & Women)
+  const STORAGE_KEY = 'couple_web_space_data_v4'
 
   function saveToStorage() {
     if (import.meta.client) {
       try {
         const payload = {
-          version: 3,
+          version: 4,
           partners: partners.value,
           anniversaryDate: anniversaryDate.value,
           secretPin: secretPin.value,
@@ -310,10 +310,10 @@ export const useCoupleStore = defineStore('coupleStore', () => {
         localStorage.removeItem('couple_web_space_data')
         localStorage.removeItem('couple_web_space_data_v2')
 
-        const raw = localStorage.getItem(STORAGE_KEY)
-        if (raw) {
-          const data = JSON.parse(raw)
-          if (data.version === 3) {
+        const rawV4 = localStorage.getItem(STORAGE_KEY)
+        if (rawV4) {
+          const data = JSON.parse(rawV4)
+          if (data.version === 4) {
             if (data.partners) partners.value = data.partners
             if (data.anniversaryDate) anniversaryDate.value = data.anniversaryDate
             if (data.secretPin) secretPin.value = data.secretPin
@@ -322,7 +322,71 @@ export const useCoupleStore = defineStore('coupleStore', () => {
             if (data.memories) memories.value = data.memories
             if (data.playlist) playlist.value = data.playlist
             if (data.activePartnerId) activePartnerId.value = data.activePartnerId
+            return
           }
+        }
+
+        // Migration from previous v3 data (mas & adek -> men & women)
+        const rawV3 = localStorage.getItem('couple_web_space_data_v3')
+        if (rawV3) {
+          const data = JSON.parse(rawV3)
+          if (data.partners) {
+            if (data.partners.mas) {
+              partners.value.men = {
+                ...partners.value.men,
+                ...data.partners.mas,
+                id: 'men',
+                callsign: data.partners.mas.callsign === 'Mas' ? 'Men' : data.partners.mas.callsign,
+                role: data.partners.mas.role === 'Mas' ? 'Men' : data.partners.mas.role
+              }
+            }
+            if (data.partners.adek) {
+              partners.value.women = {
+                ...partners.value.women,
+                ...data.partners.adek,
+                id: 'women',
+                callsign: data.partners.adek.callsign === 'Adek' ? 'Women' : data.partners.adek.callsign,
+                role: data.partners.adek.role === 'Adek' ? 'Women' : data.partners.adek.role
+              }
+            }
+          }
+          if (data.anniversaryDate) anniversaryDate.value = data.anniversaryDate
+          if (data.secretPin) secretPin.value = data.secretPin
+          if (data.stickyNotes) {
+            stickyNotes.value = data.stickyNotes.map((n: any) => ({
+              ...n,
+              authorId: n.authorId === 'mas' ? 'men' : n.authorId === 'adek' ? 'women' : n.authorId,
+              likes: {
+                men: Boolean(n.likes?.mas || n.likes?.men),
+                women: Boolean(n.likes?.adek || n.likes?.women)
+              }
+            }))
+          }
+          if (data.journeyMilestones) {
+            journeyMilestones.value = data.journeyMilestones.map((j: any) => ({
+              ...j,
+              addedBy: j.addedBy === 'mas' ? 'men' : j.addedBy === 'adek' ? 'women' : j.addedBy
+            }))
+          }
+          if (data.memories) {
+            memories.value = data.memories.map((m: any) => ({
+              ...m,
+              menImpression: m.menImpression || m.masImpression || '',
+              womenImpression: m.womenImpression || m.adekImpression || '',
+              addedBy: m.addedBy === 'mas' ? 'men' : m.addedBy === 'adek' ? 'women' : m.addedBy
+            }))
+          }
+          if (data.playlist) {
+            playlist.value = data.playlist.map((p: any) => ({
+              ...p,
+              addedBy: p.addedBy === 'mas' ? 'men' : p.addedBy === 'adek' ? 'women' : p.addedBy
+            }))
+          }
+          if (data.activePartnerId) {
+            activePartnerId.value = data.activePartnerId === 'mas' ? 'men' : data.activePartnerId === 'adek' ? 'women' : data.activePartnerId
+          }
+          saveToStorage()
+          localStorage.removeItem('couple_web_space_data_v3')
         }
       } catch (e) {
         console.warn('Storage load failed:', e)

@@ -113,7 +113,7 @@
         <!-- Submit Button -->
         <button
           type="submit"
-          class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-sky-500 text-white text-xs font-bold shadow-md soft-tactile-btn mt-2 flex items-center justify-center gap-2"
+          class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-sky-500 text-white text-xs font-bold shadow-md hover:brightness-105 active:scale-98 transition-all mt-2 flex items-center justify-center gap-2"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />

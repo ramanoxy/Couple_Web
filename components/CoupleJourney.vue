@@ -43,7 +43,7 @@
       </p>
       <button
         @click="isAddModalOpen = true"
-        class="py-2.5 px-5 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-sky-500 text-white text-xs font-bold shadow-md soft-tactile-btn flex items-center gap-1.5"
+        class="py-2.5 px-5 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-sky-500 text-white text-xs font-bold shadow-md hover:brightness-105 active:scale-95 transition-all flex items-center gap-1.5"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -110,7 +110,7 @@
               "{{ item.feeling }}"
             </span>
             <span class="ml-auto text-slate-400 font-medium">
-              Ditulis oleh <strong class="text-slate-700">{{ item.addedBy === 'mas' ? store.partners.mas.callsign : store.partners.adek.callsign }}</strong>
+              Ditulis oleh <strong class="text-slate-700">{{ item.addedBy === 'men' ? store.partners.men.callsign : store.partners.women.callsign }}</strong>
             </span>
           </div>
         </div>

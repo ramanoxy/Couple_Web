@@ -16,7 +16,10 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
         </svg>
         <span>Perjalanan Cerita</span>
-        <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/20 font-bold">
+        <span
+          class="text-[10px] px-1.5 py-0.5 rounded-full font-bold"
+          :class="store.qualityTimeTab === 'journey' ? 'bg-white/25 text-white' : 'bg-slate-100 text-slate-700 border border-slate-200'"
+        >
           {{ store.journeyMilestones.length }}
         </span>
       </button>
@@ -36,7 +39,10 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
         <span>Paspor Kencan</span>
-        <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/20 font-bold">
+        <span
+          class="text-[10px] px-1.5 py-0.5 rounded-full font-bold"
+          :class="store.qualityTimeTab === 'passport' ? 'bg-white/25 text-white' : 'bg-slate-100 text-slate-700 border border-slate-200'"
+        >
           {{ store.memories.length }}
         </span>
       </button>

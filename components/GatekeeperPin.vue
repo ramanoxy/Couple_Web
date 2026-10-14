@@ -59,7 +59,7 @@
         Rumah Kita Berdua
       </h2>
       <p class="text-xs text-slate-500 font-medium max-w-[240px] leading-relaxed mb-6">
-        Ruang rahasia {{ store.partners.mas.callsign }} & {{ store.partners.adek.callsign }}. Masukkan 4-digit kode rahasia.
+        Ruang rahasia {{ store.partners.men.callsign }} & {{ store.partners.women.callsign }}. Masukkan 4-digit kode rahasia.
       </p>
 
       <!-- PIN Indicator Dots -->

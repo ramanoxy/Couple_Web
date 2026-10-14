@@ -14,10 +14,10 @@
       <!-- Add Note Button -->
       <button
         @click="isAddModalOpen = true"
-        class="px-3 py-1.5 rounded-full bg-gradient-to-r from-rose-soft to-pink-400 text-white text-xs font-bold shadow-sm soft-tactile-btn flex items-center gap-1.5"
+        class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 text-white text-xs font-bold shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
       >
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
         </svg>
         <span>Tulis Pesan</span>
       </button>
@@ -61,7 +61,7 @@
               {{ note.tag }}
             </span>
             <span class="text-[10px] text-slate-500 font-medium">
-              oleh <strong>{{ note.authorId === 'mas' ? store.partners.mas.callsign : store.partners.adek.callsign }}</strong>
+              oleh <strong>{{ note.authorId === 'men' ? store.partners.men.callsign : store.partners.women.callsign }}</strong>
             </span>
           </div>
 
@@ -166,8 +166,8 @@ const filteredNotes = computed(() => {
 function getLikeCount(note: StickyNote): number {
   if (!note.likes) return 0
   let count = 0
-  if (note.likes.mas) count++
-  if (note.likes.adek) count++
+  if (note.likes.men) count++
+  if (note.likes.women) count++
   return count
 }
 

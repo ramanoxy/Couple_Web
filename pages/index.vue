@@ -36,7 +36,7 @@
                 </span>
               </h1>
               <p class="text-[11px] sm:text-xs text-slate-500 font-medium">
-                {{ store.partners.mas.callsign }} & {{ store.partners.adek.callsign }} • Sejak {{ store.anniversaryDate }}
+                {{ store.partners.men.callsign }} & {{ store.partners.women.callsign }} • Sejak {{ store.anniversaryDate }}
               </p>
             </div>
           </div>
@@ -44,29 +44,29 @@
           <!-- Right: Who's Home Switcher & Action Buttons -->
           <div class="flex items-center justify-between sm:justify-end gap-2 sm:gap-3">
             <!-- "Who's Home?" Liquid Glass Pill Switcher -->
-            <div class="p-1 rounded-2xl bg-white/70 border border-white/90 shadow-sm flex items-center flex-1 sm:flex-initial sm:w-60">
+            <div class="p-1 rounded-2xl bg-white/70 border border-white/90 shadow-sm flex items-center flex-1 sm:flex-initial sm:w-64">
               <button
-                @click="store.switchPartner('mas')"
-                class="flex-1 py-1 px-2.5 sm:px-3 rounded-xl flex items-center justify-center gap-1.5 text-xs font-bold transition-all"
-                :class="store.activePartnerId === 'mas' ? 'bg-gradient-to-r from-sky-serene to-sky-soft text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'"
+                @click="store.switchPartner('men')"
+                class="flex-1 py-1.5 px-2.5 sm:px-3 rounded-xl flex items-center justify-center gap-1.5 text-xs font-bold transition-all"
+                :class="store.activePartnerId === 'men' ? 'bg-gradient-to-r from-sky-500 to-sky-600 text-white shadow-sm font-extrabold' : 'text-slate-600 hover:text-slate-900'"
               >
                 <div class="w-4 h-4 rounded-full overflow-hidden border border-white/80 flex-shrink-0">
-                  <img :src="store.partners.mas.avatar" class="w-full h-full object-cover" />
+                  <img :src="store.partners.men.avatar" class="w-full h-full object-cover" />
                 </div>
-                <span>{{ store.partners.mas.callsign }}</span>
-                <span v-if="store.activePartnerId === 'mas'" class="w-1.5 h-1.5 rounded-full bg-sky-900 animate-pulse" />
+                <span>{{ store.partners.men.callsign }}</span>
+                <span v-if="store.activePartnerId === 'men'" class="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
               </button>
 
               <button
-                @click="store.switchPartner('adek')"
-                class="flex-1 py-1 px-2.5 sm:px-3 rounded-xl flex items-center justify-center gap-1.5 text-xs font-bold transition-all"
-                :class="store.activePartnerId === 'adek' ? 'bg-gradient-to-r from-rose-soft to-pink-400 text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'"
+                @click="store.switchPartner('women')"
+                class="flex-1 py-1.5 px-2.5 sm:px-3 rounded-xl flex items-center justify-center gap-1.5 text-xs font-bold transition-all"
+                :class="store.activePartnerId === 'women' ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-sm font-extrabold' : 'text-slate-600 hover:text-slate-900'"
               >
                 <div class="w-4 h-4 rounded-full overflow-hidden border border-white/80 flex-shrink-0">
-                  <img :src="store.partners.adek.avatar" class="w-full h-full object-cover" />
+                  <img :src="store.partners.women.avatar" class="w-full h-full object-cover" />
                 </div>
-                <span>{{ store.partners.adek.callsign }}</span>
-                <span v-if="store.activePartnerId === 'adek'" class="w-1.5 h-1.5 rounded-full bg-rose-900 animate-pulse" />
+                <span>{{ store.partners.women.callsign }}</span>
+                <span v-if="store.activePartnerId === 'women'" class="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
               </button>
             </div>
 
@@ -164,7 +164,10 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
               </svg>
               <span>Dinding Pesan</span>
-              <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/20 font-bold">
+              <span
+                class="text-[10px] px-1.5 py-0.5 rounded-full font-bold"
+                :class="store.activeTab === 'home' ? 'bg-white/25 text-white' : 'bg-slate-100 text-slate-700 border border-slate-200'"
+              >
                 {{ store.stickyNotes.length }}
               </span>
             </button>

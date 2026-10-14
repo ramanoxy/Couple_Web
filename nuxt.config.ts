@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   ],
   app: {
     head: {
-      title: 'Our Sweet Space — Mas & Adek',
+      title: 'Our Sweet Space — Men & Women',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover' },

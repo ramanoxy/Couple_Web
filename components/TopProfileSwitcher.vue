@@ -16,7 +16,7 @@
             </span>
           </h1>
           <p class="text-[11px] text-slate-500 font-medium">
-            {{ store.partners.mas.callsign }} & {{ store.partners.adek.callsign }}
+            {{ store.partners.men.callsign }} & {{ store.partners.women.callsign }}
           </p>
         </div>
       </div>
@@ -61,60 +61,60 @@
       <div
         class="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-xl transition-all duration-300 ease-out shadow-sm"
         :class="[
-          store.activePartnerId === 'mas'
-            ? 'left-1 bg-gradient-to-r from-sky-serene to-sky-soft text-white'
-            : 'left-[calc(50%+2px)] bg-gradient-to-r from-rose-soft to-pink-400 text-white'
+          store.activePartnerId === 'men'
+            ? 'left-1 bg-gradient-to-r from-sky-500 to-sky-600'
+            : 'left-[calc(50%+2px)] bg-gradient-to-r from-rose-500 to-pink-500'
         ]"
       />
 
-      <!-- Partner A: Mas -->
+      <!-- Partner A: Men -->
       <button
-        @click="selectPartner('mas')"
+        @click="selectPartner('men')"
         class="relative flex-1 py-1.5 px-3 rounded-xl flex items-center justify-center gap-2 text-xs font-bold transition-all duration-200 z-10"
         :class="[
-          store.activePartnerId === 'mas'
-            ? 'text-slate-900 font-extrabold'
-            : 'text-slate-500 hover:text-slate-800'
+          store.activePartnerId === 'men'
+            ? 'text-white font-extrabold'
+            : 'text-slate-600 hover:text-slate-900'
         ]"
       >
         <div class="w-5 h-5 rounded-full overflow-hidden border border-white/80 shadow-xs flex-shrink-0">
           <img
-            :src="store.partners.mas.avatar"
-            :alt="store.partners.mas.callsign"
+            :src="store.partners.men.avatar"
+            :alt="store.partners.men.callsign"
             class="w-full h-full object-cover"
           />
         </div>
         <div class="flex items-center gap-1 truncate">
-          <span>{{ store.partners.mas.callsign }} (Mas)</span>
+          <span>{{ store.partners.men.callsign }} (Men)</span>
           <span
-            v-if="store.activePartnerId === 'mas'"
-            class="w-1.5 h-1.5 rounded-full bg-sky-900 animate-pulse"
+            v-if="store.activePartnerId === 'men'"
+            class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"
           />
         </div>
       </button>
 
-      <!-- Partner B: Adek -->
+      <!-- Partner B: Women -->
       <button
-        @click="selectPartner('adek')"
+        @click="selectPartner('women')"
         class="relative flex-1 py-1.5 px-3 rounded-xl flex items-center justify-center gap-2 text-xs font-bold transition-all duration-200 z-10"
         :class="[
-          store.activePartnerId === 'adek'
-            ? 'text-slate-900 font-extrabold'
-            : 'text-slate-500 hover:text-slate-800'
+          store.activePartnerId === 'women'
+            ? 'text-white font-extrabold'
+            : 'text-slate-600 hover:text-slate-900'
         ]"
       >
         <div class="w-5 h-5 rounded-full overflow-hidden border border-white/80 shadow-xs flex-shrink-0">
           <img
-            :src="store.partners.adek.avatar"
-            :alt="store.partners.adek.callsign"
+            :src="store.partners.women.avatar"
+            :alt="store.partners.women.callsign"
             class="w-full h-full object-cover"
           />
         </div>
         <div class="flex items-center gap-1 truncate">
-          <span>{{ store.partners.adek.callsign }} (Adek)</span>
+          <span>{{ store.partners.women.callsign }} (Women)</span>
           <span
-            v-if="store.activePartnerId === 'adek'"
-            class="w-1.5 h-1.5 rounded-full bg-rose-900 animate-pulse"
+            v-if="store.activePartnerId === 'women'"
+            class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"
           />
         </div>
       </button>
@@ -125,11 +125,11 @@
       <div class="flex items-center gap-1.5">
         <span
           class="w-2 h-2 rounded-full"
-          :class="store.activePartnerId === 'mas' ? 'bg-sky-500' : 'bg-rose-500'"
+          :class="store.activePartnerId === 'men' ? 'bg-sky-500' : 'bg-rose-500'"
         />
         <span>
           Sedang aktif sebagai:
-          <strong :class="store.activePartnerId === 'mas' ? 'text-sky-700' : 'text-rose-700'">
+          <strong :class="store.activePartnerId === 'men' ? 'text-sky-700' : 'text-rose-700'">
             {{ store.activePartner.callsign }}
           </strong>
         </span>
@@ -161,7 +161,7 @@ const greetingMessage = computed(() => {
 
 function selectPartner(id: PartnerId) {
   if (store.activePartnerId !== id) {
-    audio.playKeyClick(id === 'mas' ? 380 : 460)
+    audio.playKeyClick(id === 'men' ? 380 : 460)
     store.switchPartner(id)
   }
 }

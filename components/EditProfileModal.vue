@@ -36,11 +36,11 @@
 
       <!-- Form -->
       <form @submit.prevent="handleSave" class="space-y-4">
-        <!-- Partner A (Mas) -->
+        <!-- Partner A (Men) -->
         <div class="p-3.5 rounded-2xl bg-sky-50/70 border border-sky-100 space-y-2">
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-sky-500" />
-            <span class="text-xs font-black uppercase text-sky-800">Profil Partner A</span>
+            <span class="text-xs font-black uppercase text-sky-800">Profil Partner Men</span>
           </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
@@ -57,7 +57,7 @@
               <input
                 v-model="partnerA.callsign"
                 type="text"
-                placeholder="Contoh: Mas"
+                placeholder="Contoh: Men"
                 class="w-full px-3 py-1.5 rounded-xl glass-input text-xs font-semibold"
               />
             </div>
@@ -73,11 +73,11 @@
           </div>
         </div>
 
-        <!-- Partner B (Adek) -->
+        <!-- Partner B (Women) -->
         <div class="p-3.5 rounded-2xl bg-rose-50/70 border border-rose-100 space-y-2">
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-rose-500" />
-            <span class="text-xs font-black uppercase text-rose-800">Profil Partner B</span>
+            <span class="text-xs font-black uppercase text-rose-800">Profil Partner Women</span>
           </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
@@ -94,7 +94,7 @@
               <input
                 v-model="partnerB.callsign"
                 type="text"
-                placeholder="Contoh: Adek"
+                placeholder="Contoh: Women"
                 class="w-full px-3 py-1.5 rounded-xl glass-input text-xs font-semibold"
               />
             </div>
@@ -150,7 +150,7 @@
         <!-- Save Button -->
         <button
           type="submit"
-          class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-sky-500 text-white text-xs font-bold shadow-md soft-tactile-btn flex items-center justify-center gap-2"
+          class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-sky-500 text-white text-xs font-bold shadow-md hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -179,15 +179,15 @@ const store = useCoupleStore()
 const audio = useAudioEngine()
 
 const partnerA = reactive({
-  name: store.partners.mas.name,
-  callsign: store.partners.mas.callsign,
-  avatar: store.partners.mas.avatar
+  name: store.partners.men.name,
+  callsign: store.partners.men.callsign,
+  avatar: store.partners.men.avatar
 })
 
 const partnerB = reactive({
-  name: store.partners.adek.name,
-  callsign: store.partners.adek.callsign,
-  avatar: store.partners.adek.avatar
+  name: store.partners.women.name,
+  callsign: store.partners.women.callsign,
+  avatar: store.partners.women.avatar
 })
 
 const anniversary = ref(store.anniversaryDate)
@@ -197,12 +197,12 @@ watch(
   () => props.isOpen,
   (val) => {
     if (val) {
-      partnerA.name = store.partners.mas.name
-      partnerA.callsign = store.partners.mas.callsign
-      partnerA.avatar = store.partners.mas.avatar
-      partnerB.name = store.partners.adek.name
-      partnerB.callsign = store.partners.adek.callsign
-      partnerB.avatar = store.partners.adek.avatar
+      partnerA.name = store.partners.men.name
+      partnerA.callsign = store.partners.men.callsign
+      partnerA.avatar = store.partners.men.avatar
+      partnerB.name = store.partners.women.name
+      partnerB.callsign = store.partners.women.callsign
+      partnerB.avatar = store.partners.women.avatar
       anniversary.value = store.anniversaryDate
       pin.value = store.secretPin
     }
@@ -211,8 +211,8 @@ watch(
 
 function handleSave() {
   audio.playKeyClick(500)
-  store.updateProfile('mas', partnerA.name, partnerA.callsign, partnerA.avatar)
-  store.updateProfile('adek', partnerB.name, partnerB.callsign, partnerB.avatar)
+  store.updateProfile('men', partnerA.name, partnerA.callsign, partnerA.avatar)
+  store.updateProfile('women', partnerB.name, partnerB.callsign, partnerB.avatar)
   store.updateSettings(anniversary.value, pin.value)
   emit('close')
 }

@@ -15,10 +15,10 @@
       </span>
     </div>
 
-    <!-- Dual Partner Status Cards (Mas & Adek) -->
+    <!-- Dual Partner Status Cards (Men & Women) -->
     <div class="grid grid-cols-1 gap-3.5">
       <div
-        v-for="p in [store.partners.mas, store.partners.adek]"
+        v-for="p in [store.partners.men, store.partners.women]"
         :key="p.id"
         class="glass-card p-4 rounded-3xl relative overflow-hidden transition-all duration-300"
         :class="[
@@ -30,7 +30,7 @@
         <!-- Background Tint -->
         <div
           class="absolute -right-8 -top-8 w-32 h-32 rounded-full blur-2xl pointer-events-none opacity-40"
-          :class="p.id === 'mas' ? 'bg-sky-serene' : 'bg-rose-soft'"
+          :class="p.id === 'men' ? 'bg-sky-serene' : 'bg-rose-soft'"
         />
 
         <!-- Top Row: Avatar, Callsign, Role & Live Indicator -->
@@ -38,7 +38,7 @@
           <div class="flex items-center gap-2.5">
             <div
               class="w-10 h-10 rounded-2xl overflow-hidden p-0.5 border"
-              :class="p.id === 'mas' ? 'border-sky-300 bg-sky-100' : 'border-rose-300 bg-rose-100'"
+              :class="p.id === 'men' ? 'border-sky-300 bg-sky-100' : 'border-rose-300 bg-rose-100'"
             >
               <img :src="p.avatar" :alt="p.callsign" class="w-full h-full object-cover rounded-xl" />
             </div>
@@ -50,7 +50,7 @@
                 <span
                   v-if="p.id === store.activePartnerId"
                   class="text-[9px] font-bold px-1.5 py-0.2 rounded-full uppercase"
-                  :class="p.id === 'mas' ? 'bg-sky-100 text-sky-700' : 'bg-rose-100 text-rose-700'"
+                  :class="p.id === 'men' ? 'bg-sky-100 text-sky-700' : 'bg-rose-100 text-rose-700'"
                 >
                   Aktif
                 </span>
@@ -89,14 +89,14 @@
               v-model.number="myBattery"
               @input="handleBatteryChange"
               class="w-full h-2 rounded-full appearance-none cursor-pointer bg-slate-200/80"
-              :class="p.id === 'mas' ? 'accent-sky-500' : 'accent-rose-500'"
+              :class="p.id === 'men' ? 'accent-sky-500' : 'accent-rose-500'"
             />
           </div>
 
           <div v-else class="w-full h-2 bg-slate-200/80 rounded-full overflow-hidden">
             <div
               class="h-full rounded-full transition-all duration-500"
-              :class="p.id === 'mas' ? 'bg-gradient-to-r from-sky-400 to-sky-600' : 'bg-gradient-to-r from-rose-400 to-rose-600'"
+              :class="p.id === 'men' ? 'bg-gradient-to-r from-sky-400 to-sky-600' : 'bg-gradient-to-r from-rose-400 to-rose-600'"
               :style="{ width: `${p.battery}%` }"
             />
           </div>
@@ -221,7 +221,7 @@ const presetMoods = [
 
 function getBatteryBadgeClass(battery: number, id: string) {
   if (battery > 70) {
-    return id === 'mas' ? 'bg-sky-50 text-sky-700 border-sky-200' : 'bg-rose-50 text-rose-700 border-rose-200'
+    return id === 'men' ? 'bg-sky-50 text-sky-700 border-sky-200' : 'bg-rose-50 text-rose-700 border-rose-200'
   }
   if (battery > 35) {
     return 'bg-amber-50 text-amber-700 border-amber-200'

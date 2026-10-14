@@ -103,24 +103,24 @@
           />
         </div>
 
-        <!-- Mas Impression -->
+        <!-- Men Impression -->
         <div>
-          <label class="block text-xs font-bold text-sky-700 mb-1">Kesan 1 Kalimat dari {{ store.partners.mas.callsign }}</label>
+          <label class="block text-xs font-bold text-sky-700 mb-1">Kesan 1 Kalimat dari {{ store.partners.men.callsign }}</label>
           <input
-            v-model="form.masImpression"
+            v-model="form.menImpression"
             type="text"
-            :placeholder="`Apa kesan paling berharga buat ${store.partners.mas.callsign}?`"
+            :placeholder="`Apa kesan paling berharga buat ${store.partners.men.callsign}?`"
             class="w-full px-3.5 py-2.5 rounded-2xl glass-input text-xs text-slate-800 font-medium"
           />
         </div>
 
-        <!-- Adek Impression -->
+        <!-- Women Impression -->
         <div>
-          <label class="block text-xs font-bold text-rose-600 mb-1">Kesan 1 Kalimat dari {{ store.partners.adek.callsign }}</label>
+          <label class="block text-xs font-bold text-rose-600 mb-1">Kesan 1 Kalimat dari {{ store.partners.women.callsign }}</label>
           <input
-            v-model="form.adekImpression"
+            v-model="form.womenImpression"
             type="text"
-            :placeholder="`Apa kesan paling berharga buat ${store.partners.adek.callsign}?`"
+            :placeholder="`Apa kesan paling berharga buat ${store.partners.women.callsign}?`"
             class="w-full px-3.5 py-2.5 rounded-2xl glass-input text-xs text-slate-800 font-medium"
           />
         </div>
@@ -139,7 +139,7 @@
         <!-- Submit Button -->
         <button
           type="submit"
-          class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-sky-500 text-white text-xs font-bold shadow-md soft-tactile-btn mt-2 flex items-center justify-center gap-2"
+          class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-sky-500 text-white text-xs font-bold shadow-md hover:brightness-105 active:scale-98 transition-all mt-2 flex items-center justify-center gap-2"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -176,8 +176,8 @@ const form = reactive({
   location: 'Indonesia',
   rating: 5,
   photoUrl: '',
-  masImpression: '',
-  adekImpression: ''
+  menImpression: '',
+  womenImpression: ''
 })
 
 function handleSubmit() {
@@ -195,15 +195,15 @@ function handleSubmit() {
     location: form.location.trim() || 'Tempat Spesial',
     rating: form.rating,
     photoUrl: form.photoUrl.trim() || presetDefault,
-    masImpression: form.masImpression.trim() || 'Momen yang sangat berharga.',
-    adekImpression: form.adekImpression.trim() || 'Sangat bahagia di momen ini.',
+    menImpression: form.menImpression.trim() || 'Momen yang sangat berharga.',
+    womenImpression: form.womenImpression.trim() || 'Sangat bahagia di momen ini.',
     tags: tags.length ? tags : ['Date']
   })
 
   // Reset
   form.title = ''
-  form.masImpression = ''
-  form.adekImpression = ''
+  form.menImpression = ''
+  form.womenImpression = ''
   form.photoUrl = ''
   emit('close')
 }
