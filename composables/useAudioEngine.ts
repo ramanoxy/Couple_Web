@@ -126,6 +126,11 @@ class AudioEngine {
     })
   }
 
+  // Alias for success chime across components
+  public playSuccessChime(): void {
+    this.playUnlockChime()
+  }
+
   // Soft wrong PIN buzz sound
   public playErrorBuzz(): void {
     const ctx = this.initContext()

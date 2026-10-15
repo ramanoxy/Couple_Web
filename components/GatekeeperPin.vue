@@ -186,10 +186,20 @@ function handleDelete() {
 
 function validatePin() {
   if (pinInput.value === store.secretPin) {
-    audio.playSuccessChime()
+    try {
+      if (typeof audio.playSuccessChime === 'function') {
+        audio.playSuccessChime()
+      } else if (typeof audio.playUnlockChime === 'function') {
+        audio.playUnlockChime()
+      }
+    } catch (e) {
+      console.warn('Audio unlock sound notice:', e)
+    }
     store.unlockSpace()
   } else {
-    audio.playErrorBuzz()
+    try {
+      audio.playErrorBuzz?.()
+    } catch (e) {}
     isShaking.value = true
     warningMessage.value = 'Kode rahasia belum tepat'
     setTimeout(() => {
@@ -200,7 +210,15 @@ function validatePin() {
 }
 
 function autoFillOrUnlock() {
-  audio.playSuccessChime()
+  try {
+    if (typeof audio.playSuccessChime === 'function') {
+      audio.playSuccessChime()
+    } else if (typeof audio.playUnlockChime === 'function') {
+      audio.playUnlockChime()
+    }
+  } catch (e) {
+    console.warn('Audio unlock sound notice:', e)
+  }
   pinInput.value = store.secretPin
   setTimeout(() => {
     store.unlockSpace()

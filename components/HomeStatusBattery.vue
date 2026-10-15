@@ -234,7 +234,9 @@ const tempMood = ref(store.activePartner.mood)
 const tempCraving = ref(store.activePartner.craving)
 
 function handleSendHug() {
-  audio.playSuccessChime()
+  try {
+    audio.playSuccessChime?.()
+  } catch (e) {}
   store.sendVirtualHug()
 }
 
