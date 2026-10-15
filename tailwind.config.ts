@@ -33,10 +33,25 @@ export default <Partial<Config>>{
           base: '#334155',
           dark: '#1E293B',
           midnight: '#0F172A',
+        },
+        sanctuary: {
+          bg: '#FAF7F2',
+          card: '#FFFFFF',
+          rosePill: '#FCECEE',
+          roseText: '#9E5466',
+          roseCard: '#FCE8EB',
+          roseBorder: '#F5CCD3',
+          skyPill: '#F0F7FF',
+          skyText: '#2C465E',
+          skyCard: '#E2F0FD',
+          skyBorder: '#CCE5FC',
+          darkCapsule: '#4A4758'
         }
       },
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+        editorial: ['"Cormorant Garamond"', '"Playfair Display"', 'Georgia', 'serif'],
         handwriting: ['Caveat', 'cursive']
       },
       animation: {

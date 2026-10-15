@@ -79,30 +79,30 @@ export const useCoupleStore = defineStore('coupleStore', () => {
   // --- Active Identity ("Who's Home?") ---
   const activePartnerId = ref<PartnerId>('men')
 
-  // Clean Partners Profile Data
+  // Clean Partners Profile Data (Our Sanctuary: Alif & Sayang)
   const partners = ref<Record<PartnerId, Partner>>({
     men: {
       id: 'men',
-      name: 'Partner Men',
-      callsign: 'Men',
-      role: 'Men',
+      name: 'Alif',
+      callsign: 'Alif',
+      role: 'Alif',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
       accent: 'sky',
-      battery: 100,
-      mood: 'Belum diisi mood hari ini',
-      craving: 'Belum ada keinginan khusus',
+      battery: 80,
+      mood: 'Pengen dipeluk',
+      craving: 'Pengen ngobrol santai berdua',
       lastUpdated: 'Hari ini'
     },
     women: {
       id: 'women',
-      name: 'Partner Women',
-      callsign: 'Women',
-      role: 'Women',
+      name: 'Sayang',
+      callsign: 'Sayang',
+      role: 'Sayang',
       avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
       accent: 'rose',
-      battery: 100,
-      mood: 'Belum diisi mood hari ini',
-      craving: 'Belum ada keinginan khusus',
+      battery: 45,
+      mood: 'Butuh recharge',
+      craving: 'Sayang lagi ngidam mie pedes.',
       lastUpdated: 'Hari ini'
     }
   })
@@ -137,7 +137,23 @@ export const useCoupleStore = defineStore('coupleStore', () => {
     saveToStorage()
   }
 
-  // --- Music Player State ---
+  // --- Virtual Hug & Deep Talk Modal State ---
+  const isDeepTalkModalOpen = ref(false)
+  const isHugFlying = ref(false)
+  const hugFeedback = ref<string | null>(null)
+
+  function sendVirtualHug() {
+    isHugFlying.value = true
+    hugFeedback.value = `Pelukan hangat terkirim untuk ${otherPartner.value.callsign} ♡`
+    setTimeout(() => {
+      isHugFlying.value = false
+    }, 2200)
+    setTimeout(() => {
+      hugFeedback.value = null
+    }, 3800)
+  }
+
+  // --- Music Player State (Our Soundtrack) ---
   const isPlaying = ref(false)
   const isPlayerModalOpen = ref(false)
   const isStoryFlipped = ref(false)
@@ -146,7 +162,19 @@ export const useCoupleStore = defineStore('coupleStore', () => {
   const currentTime = ref(0)
   const currentDuration = ref(180)
 
-  const playlist = ref<SongTrack[]>([])
+  const playlist = ref<SongTrack[]>([
+    {
+      id: 'track-cas',
+      title: "Nothing's Gonna Hurt You Baby",
+      artist: 'Cigarettes After Sex',
+      coverUrl: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=400&q=80',
+      audioUrl: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3',
+      addedBy: 'women',
+      story: 'our soundtrack',
+      duration: 285,
+      createdAt: 'Hari ini'
+    }
+  ])
 
   const currentTrack = computed<SongTrack | null>(() => {
     if (playlist.value.length === 0) return null
@@ -191,8 +219,29 @@ export const useCoupleStore = defineStore('coupleStore', () => {
     saveToStorage()
   }
 
-  // --- Sticky Notes Wall ---
-  const stickyNotes = ref<StickyNote[]>([])
+  // --- Little Love Notes ---
+  const stickyNotes = ref<StickyNote[]>([
+    {
+      id: 'note-sayang-1',
+      authorId: 'women',
+      content: 'Jangan lupa makan, ya. Ada yang sayang kamu di sini.',
+      tag: 'Sweet',
+      color: 'rose',
+      isPinned: true,
+      likes: { men: true, women: true },
+      createdAt: '10:24'
+    },
+    {
+      id: 'note-alif-2',
+      authorId: 'men',
+      content: 'Nanti sore jalan sebentar? Aku kangen cerita random kamu.',
+      tag: 'Sweet',
+      color: 'sky',
+      isPinned: false,
+      likes: { men: true, women: false },
+      createdAt: '11:08'
+    }
+  ])
 
   function addStickyNote(content: string, tag: StickyNote['tag'], color: StickyNote['color']) {
     const newNote: StickyNote = {
@@ -280,14 +329,14 @@ export const useCoupleStore = defineStore('coupleStore', () => {
     saveToStorage()
   }
 
-  // Persistence to LocalStorage (Version 4: Men & Women)
-  const STORAGE_KEY = 'couple_web_space_data_v4'
+  // Persistence to LocalStorage (Version 5: Sanctuary)
+  const STORAGE_KEY = 'couple_sanctuary_data_v5'
 
   function saveToStorage() {
     if (import.meta.client) {
       try {
         const payload = {
-          version: 4,
+          version: 5,
           partners: partners.value,
           anniversaryDate: anniversaryDate.value,
           secretPin: secretPin.value,
@@ -307,86 +356,20 @@ export const useCoupleStore = defineStore('coupleStore', () => {
   function loadFromStorage() {
     if (import.meta.client) {
       try {
-        localStorage.removeItem('couple_web_space_data')
-        localStorage.removeItem('couple_web_space_data_v2')
-
-        const rawV4 = localStorage.getItem(STORAGE_KEY)
-        if (rawV4) {
-          const data = JSON.parse(rawV4)
-          if (data.version === 4) {
+        const rawV5 = localStorage.getItem(STORAGE_KEY)
+        if (rawV5) {
+          const data = JSON.parse(rawV5)
+          if (data.version === 5) {
             if (data.partners) partners.value = data.partners
             if (data.anniversaryDate) anniversaryDate.value = data.anniversaryDate
             if (data.secretPin) secretPin.value = data.secretPin
-            if (data.stickyNotes) stickyNotes.value = data.stickyNotes
+            if (data.stickyNotes && data.stickyNotes.length) stickyNotes.value = data.stickyNotes
             if (data.journeyMilestones) journeyMilestones.value = data.journeyMilestones
             if (data.memories) memories.value = data.memories
-            if (data.playlist) playlist.value = data.playlist
+            if (data.playlist && data.playlist.length) playlist.value = data.playlist
             if (data.activePartnerId) activePartnerId.value = data.activePartnerId
             return
           }
-        }
-
-        // Migration from previous v3 data (mas & adek -> men & women)
-        const rawV3 = localStorage.getItem('couple_web_space_data_v3')
-        if (rawV3) {
-          const data = JSON.parse(rawV3)
-          if (data.partners) {
-            if (data.partners.mas) {
-              partners.value.men = {
-                ...partners.value.men,
-                ...data.partners.mas,
-                id: 'men',
-                callsign: data.partners.mas.callsign === 'Mas' ? 'Men' : data.partners.mas.callsign,
-                role: data.partners.mas.role === 'Mas' ? 'Men' : data.partners.mas.role
-              }
-            }
-            if (data.partners.adek) {
-              partners.value.women = {
-                ...partners.value.women,
-                ...data.partners.adek,
-                id: 'women',
-                callsign: data.partners.adek.callsign === 'Adek' ? 'Women' : data.partners.adek.callsign,
-                role: data.partners.adek.role === 'Adek' ? 'Women' : data.partners.adek.role
-              }
-            }
-          }
-          if (data.anniversaryDate) anniversaryDate.value = data.anniversaryDate
-          if (data.secretPin) secretPin.value = data.secretPin
-          if (data.stickyNotes) {
-            stickyNotes.value = data.stickyNotes.map((n: any) => ({
-              ...n,
-              authorId: n.authorId === 'mas' ? 'men' : n.authorId === 'adek' ? 'women' : n.authorId,
-              likes: {
-                men: Boolean(n.likes?.mas || n.likes?.men),
-                women: Boolean(n.likes?.adek || n.likes?.women)
-              }
-            }))
-          }
-          if (data.journeyMilestones) {
-            journeyMilestones.value = data.journeyMilestones.map((j: any) => ({
-              ...j,
-              addedBy: j.addedBy === 'mas' ? 'men' : j.addedBy === 'adek' ? 'women' : j.addedBy
-            }))
-          }
-          if (data.memories) {
-            memories.value = data.memories.map((m: any) => ({
-              ...m,
-              menImpression: m.menImpression || m.masImpression || '',
-              womenImpression: m.womenImpression || m.adekImpression || '',
-              addedBy: m.addedBy === 'mas' ? 'men' : m.addedBy === 'adek' ? 'women' : m.addedBy
-            }))
-          }
-          if (data.playlist) {
-            playlist.value = data.playlist.map((p: any) => ({
-              ...p,
-              addedBy: p.addedBy === 'mas' ? 'men' : p.addedBy === 'adek' ? 'women' : p.addedBy
-            }))
-          }
-          if (data.activePartnerId) {
-            activePartnerId.value = data.activePartnerId === 'mas' ? 'men' : data.activePartnerId === 'adek' ? 'women' : data.activePartnerId
-          }
-          saveToStorage()
-          localStorage.removeItem('couple_web_space_data_v3')
         }
       } catch (e) {
         console.warn('Storage load failed:', e)
@@ -418,6 +401,12 @@ export const useCoupleStore = defineStore('coupleStore', () => {
     activeTab,
     anniversaryDate,
     isProfileModalOpen,
+
+    // Virtual Hug & Deep Talk
+    isDeepTalkModalOpen,
+    isHugFlying,
+    hugFeedback,
+    sendVirtualHug,
 
     // Partners
     activePartnerId,
